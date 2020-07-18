@@ -1,0 +1,134 @@
+<% let { search, old, category} = req.query %>
+<!--Main layout-->
+<main role="main">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">NODEJS TUTORIAL</h1>
+            <p class="lead text-muted">در این صفحه تمامی مقاله های سایت را مشاهده می کنید</p>
+            <form action="/articles" method="GET">
+                <div class="input-group md-form form-sm form-2 pl-0">
+                    <input class="form-control my-0 py-1 red-border" type="text"
+                           placeholder="دوره مورد نظر خود را جستجو کنید" aria-label="Search" name="search">
+                    <div class="input-group-append">
+                        <button type="submit" class="input-group-text red lighten-3" id="basic-text1">جستجو</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <!--Section: Post-->
+        <section>
+            <!-- Title -->
+            <h1 class="mb-3"></h1>
+
+            <!--Grid row-->
+            <div class="row">
+
+                <!--Grid column-->
+                <div class="col-md-8 mb-4">
+
+                    <!-- body -->
+                    <div class="album">
+                        <div class="container">
+                            <div class="row">
+                                <% articles.docs.forEach(article => { %>
+                                    <div class="col-md-4">
+                                        <div class="card mb-4">
+                                            <% Object.entries(article.images).forEach(([size, image]) => { %>
+                                                <% if(size == '480') { %>
+                                                    <a href="<%= article.path() %>"><img class="card-img-top" src="<%= image %>"
+                                                                                         alt="<%= article.title %>" width="100%"
+                                                                                         style="width: 100%; height: 200px; object-fit : cover"></a>
+                                                <% } %>
+                                            <% }) %>
+
+                                            <div class="card-body">
+                                                <p class="card-text"><%- article.title %></p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group">
+                                                        <a href="<%= article.path() %>"
+                                                           class="btn btn-sm btn-outline-secondary">مشاهده</a>
+                                                    </div>
+                                                    <small class="text-muted"><%- article.viewCount %></small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--Grid column-->
+                <div class="col-md-4 mb-4">
+                    <!--Card : Dynamic content wrapper-->
+                    <div class="card mb-4 wow fadeIn">
+
+                        <h5 class="card-header">فیلتر کردن اطلاعات</h5>
+                        <!--Card content-->
+                        <div class="card-body">
+                            <form class="form-horizontal" method="GET" action="/articles">
+                                <label>جستجو : <%= search %></label>
+
+                                <div class="form-group">
+                                    <label for="category" class="control-label font-weight-bold font-weight-bold">دسته
+                                        بندی</label>
+                                    <select name="category" id="category" class="form-control">
+                                        <option value="all">همه دسته بندی ها</option>
+                                        <% categories.forEach(cate => { %>
+                                            <option value="<%- cate.slug %>"
+                                                    <%- cate.slug === category ? 'selected' : '' %>><%- cate.name %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <input id="remember" type="checkbox" class="checkbox" name="old" value="1"
+                                            <%= old == '1' ? 'checked' : '' %>>
+                                    قدیمی ترین دوره
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-sm btn-primary">فیلتر</button>
+                                    <a href="/articles" class="btn btn-sm btn-danger">حذف</a>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                    <!--/.Card : Dynamic content wrapper-->
+
+                    <!--Card-->
+                    <div class="card mb-3 wow fadeIn">
+                        <!-- Categories Widget -->
+                        <div class="card">
+                            <h5 class="card-header">دسته بندی ها</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <ul class="list-unstyled mb-0">
+                                            <% categories.forEach(category => { %>
+                                                <li>
+                                                    <a href="#"><%- category.name %></a>
+
+                                                </li>
+                                            <% }) %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </section>
+        <!--Section: Post-->
+        <%- include(viewPath('layouts/paginate'), { pagination : articles }) %>
+    </div>
+</main>
+<!--Main layout-->

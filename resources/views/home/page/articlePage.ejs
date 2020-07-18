@@ -1,0 +1,81 @@
+<!--Main layout-->
+<main class="pt-3">
+    <div class="container">
+        <!--Section: Post-->
+        <section class="mt-1">
+            <!-- Title -->
+            <h1 class="mb-3"></h1>
+
+            <!-- Post Content -->
+            <div id="content">
+                <h3><%- article.title %></h3>
+            </div>
+            <hr>
+
+            <!-- Author -->
+            <p class="text-muted small">
+                <span> توسط <a href="#"><%- article.user.name %></a> - </span>
+                <span>ارسال شده در <%= date(article.createdAt).format('jD jMMMM jYYYY') %></span>
+            </p>
+            <!--Grid row-->
+            <div class="row">
+
+                <!--Grid column-->
+                <div class="col-md-8 mb-4">
+
+                    <!--Featured Image-->
+                    <div class="card mb-4 wow fadeIn">
+
+                        <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(144).jpg" class="img-fluid" alt="">
+
+                    </div>
+                    <!--/.Featured Image-->
+
+                    <div class="card mb-4 wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+                        <!--Card content-->
+                        <div class="card-body">
+                            <p><%- article.body %></p>
+                        </div>
+
+                    </div>
+
+                    <%- include('../../layouts/comment', { data : article }) %>
+
+                </div>
+                <!--Grid column-->
+                <div class="col-md-4 mb-4">
+                    <!--Card-->
+                    <div class="card mb-4 wow fadeIn">
+                        <!-- Categories Widget -->
+                        <div class="card">
+                            <h5 class="card-header">دسته بندی ها</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <ul class="list-unstyled mb-0">
+                                            <% categories.forEach(category => { %>
+                                                <li>
+                                                    <a href="#"><%- category.name %></a>
+                                                    <ul>
+                                                        <% category.childs.forEach(cate => { %>
+                                                            <li><%- cate.name %></li>
+                                                        <% }) %>
+                                                    </ul>
+                                                </li>
+                                            <% }) %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.Card-->
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </section>
+        <!--Section: Post-->
+    </div>
+</main>
+<!--Main layout-->

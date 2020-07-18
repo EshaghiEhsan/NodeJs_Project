@@ -1,0 +1,45 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="padding-right: 0px;padding-left: 0px;">
+    <div class="card">
+        <h5 class="card-header">افزودن سطح دسترسی کاربر</h5>
+        <div class="card-body">
+
+            <%- include(viewPath('layouts/error-messages') , { errors }) %>
+
+            <form action="/admin/user/<%- user.id %>/addUserRoles?_method=PUT" method="POST" novalidate>
+                <div class="form-group">
+                    <label for="name" class="control-label">اطلاعات کاربر</label>
+                    <p id="name" class="form-control" name="name" required>
+                        <%- user.name %> - <%- user.email %>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="roles" class="control-label font-weight-bold font-weight-bold">سطح دسترسی</label>
+                    <select name="roles" id="roles" class="form-control-chosen" multiple>
+                        <% roles.forEach(role => { %>
+                        <option value="<%- role.id %>"
+                            <%= user.roles.indexOf(role.id) !== -1 ? 'selected' : '' %>>
+                            <%- role.name %>
+                        </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group row text-right">
+                    <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                        <button type="submit" class="btn btn-space btn-primary">ثبت</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link href="/css/component-chosen.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.6/chosen.jquery.min.js"></script>
+
+<script>
+    $('.form-control-chosen').chosen({
+
+    })
+</script>

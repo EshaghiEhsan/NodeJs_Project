@@ -1,0 +1,89 @@
+﻿<div class="row pt-5 justify-content-center">
+    <div class="col-8">
+        <div class="card card-default">
+            <div class="card-header">
+                <h5 id="title">انجمن های سایت</h5>
+            </div>
+
+            <div class="card-body">
+
+                <div id="item">
+                    
+                </div>
+
+                <form>
+                    <input type="hidden" id="username" value="<%- req.user.name %>">
+                    <div class="form-group">
+                        <input name="messages" class="form-control" id="m">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">ارسال</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+        <div class="card">
+            <h5 class="card-header">کاربران آنلاین</h5>
+            <div class="card-body" id="users">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="/css/chat.css" rel="stylesheet">
+<script src="/js/socket.io.js"></script>
+<script src="/js/deparam.js"></script>
+
+
+<script>
+    let socket = io();
+
+    let query = $.deparam(window.location.search);
+    $('#title').text(`انجمن ${query.room}`);
+    socket.on('connect', function () {
+        $('form').submit(function (e) {
+            e.preventDefault();
+            if ($('#m').val() == '') {
+                alert('error')
+            } else {
+                socket.emit('chat message', {
+                    message: $('#m').val(),
+                    sender: $('#username').val()
+                })
+                $('#m').val('')
+            }
+            return false;
+        })
+
+        socket.emit('join' , query , (err) => {
+            if(err) {
+                alert(err);
+                window.location.href = "/admin/chat-room"
+            } else {
+                console.log('not err')
+            }
+        })
+
+        socket.on('chat message' , msg => {
+            $('#item').append("<div class='mess darker'><img src='https://www.w3schools.com/w3images/bandmember.jpg' alt='Avatar' class='right' style='width:100%;'><ul id='recive-messages' style='list-style: none'><li><h5>" + msg.sender + "</h5><p class='time-left'>" + msg.createdAt + "</p></li><li class='pt-15'>" + msg.message + "</li></ul></div>")
+        })
+
+        socket.on('userList' , users => {
+            let ul = $('<ul class="list-group"></ul>');
+            users.forEach(user => {
+                ul.append($('<li class="list-group-item"></li>').text(user));
+            })
+
+            $('#users').html(ul)
+        })
+
+        socket.on('userAdd' , msg => {
+            $('#item').append("<div class='mess darker'><img src='https://www.w3schools.com/w3images/bandmember.jpg' alt='Avatar' class='right' style='width:100%;'><ul id='recive-messages' style='list-style: none'><li><h5>" + msg.sender + "</h5><p class='time-left'>" + msg.createdAt + "</p></li><li class='pt-15'>" + msg.message + "</li></ul></div>")
+        })
+
+    })
+</script>

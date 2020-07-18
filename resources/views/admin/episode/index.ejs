@@ -1,0 +1,105 @@
+<script>
+    $(document).ready(function(){
+        $('.deleteProduct').on('click', function(e){
+            e.preventDefault();
+            $target =  $(e.target);
+            var tr=$(this).closest('tr');
+            var id = $target.attr('data-id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.value) {
+                    Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                    )
+
+                    $.ajax({
+                        method: 'delete',
+                        url: '/admin/episode/'+id,
+                    });
+                    tr.remove();
+                    
+                }
+            })
+        });
+    });
+</script>
+<div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+                <h5 class="card-header">دوره ها</h5>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered first">
+                            <thead>
+                                <tr>
+                                    <th>شماره ویدیو</th>
+                                    <th>نام دوره</th>
+                                    <th>نام ویدیو</th>
+                                    <th>نوع ویدیو</th>
+                                    <th>زمان</th>
+                                    <th>دانلود</th>
+                                    <th>تنظیمات</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <% episodes.docs.forEach(episode => { %>
+                            <tr>
+                                <td><%- episode.number %></td>
+                                <td><%- episode.course.title %></td>
+                                <td><%- episode.title %></td>
+                                <td>
+                                    <% if(episode.type === 'vip') { %>
+                                    اعضا ویژه
+                                    <% }else if(episode.type === 'cash') { %>
+                                    نقدی
+                                    <% } else { %>
+                                    رایگان
+                                    <% }%>
+                                </td>
+                                <td><%- episode.time %></td>
+                                <td><%- episode.downloadCount %></td>
+                                <td>
+                                    <div>
+                                        <input type="hidden" name="_method" value="delete">
+                                        <a href="/admin/episode/<%= episode._id %>/edit" class="btn btn-sm btn-primary">ویرایش</a>
+                                        <a href="" class="btn-sm btn-danger deleteProduct"  data-id=<%= episode._id %>>حذف</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }) %>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>شماره ویدیو</th>
+                                    <th>نام دوره</th>
+                                    <th>نام ویدیو</th>
+                                    <th>نوع ویدیو</th>
+                                    <th>زمان</th>
+                                    <th>دانلود</th>
+                                    <th>تنظیمات</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <%- include(viewPath('layouts/paginate'), { pagination : episodes }) %>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    
+      
+    </script>
+    

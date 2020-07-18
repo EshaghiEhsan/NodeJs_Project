@@ -1,0 +1,85 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="padding-right: 0px;padding-left: 0px;">
+
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-inline-block">
+                        <h3 class="text">دوره ها</h3>
+                        <h2 class="mb-0"><%- profile.courses.length %></h2>
+                    </div>
+                    <div class="float-left icon-circle-medium  icon-box-lg  bg-success-light mt-0">
+                        <i class="fa fa-redo fa-fw fa-sm text-black-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-inline-block">
+                        <h3 class="text">مقالات</h3>
+                        <h2 class="mb-0"><%- profile.articles.length %></h2>
+                    </div>
+                    <div class="float-left icon-circle-medium  icon-box-lg  bg-success-light mt-0">
+                        <i class="fa fa-language fa-fw fa-sm text-black-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-inline-block">
+                        <h3 class="text">دیدگاه ها</h3>
+                        <h2 class="mb-0"><%- profile.comments.length %></h2>
+                    </div>
+                    <div class="float-left icon-circle-medium  icon-box-lg  bg-success-light mt-0">
+                        <i class="fa fa-comment fa-fw fa-sm text-black-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h5 class="card-header">اطلاعات حساب کاربری</h5>
+        <div class="card-body">
+
+            <%- include(viewPath('layouts/error-messages') , { errors }) %>
+
+            <form action="/admin/profile/<%= req.user.id %>?_method=PUT" method="POST" novalidate>
+
+                <div class="form-group">
+                    <label for="name" class="control-label">نام کامل</label>
+                    <input id="name" type="text" class="form-control" name="name" value="<%- req.user.name %>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="control-label">آدرس ایمیل</label>
+                    <input id="email" type="email" class="form-control" name="email" value="<%- req.user.email %>" disabled required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label">پسورد</label>
+                    <input id="password" type="password" class="form-control" name="password" value="<%- req.user.password %>" required>
+                </div>
+
+                <div class="form-group row text-right">
+                    <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                        <button type="submit" class="btn btn-space btn-primary">ویرایش</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <h5 class="card-header">تراکنش های مالی</h5>
+        <div class="card-body">
+
+        </div>
+    </div>
+</div>

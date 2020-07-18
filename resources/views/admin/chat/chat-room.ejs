@@ -1,0 +1,60 @@
+﻿ <div class="container">
+    <div class="row pt-5 justify-content-center">
+        <div class="col-8">
+            <div class="card card-default">
+                <div class="card-header" style="display: flex;">
+                    <h5>ورود به انجمن های سایت</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/admin/chat" method="GET">
+                        <input type="hidden" id="username" value="<%- req.user.name %>">
+                        <div class="form-group mt-1">
+                            <input type="hidden" id="username" name="user" value="<%- req.user.name %>">
+                            <p class="alert alert-success">با توجه به لیست زیر می توانید در یکی از انجمن های سایت شرکت کرده و به بحث و تبادل نظر بپردازید</p>
+                            <select id="room" name="room" class="form-control">
+                                <option selected disabled>یکی از انجمن های سایت را انتخاب نمایید</option>
+                                <option>Nodejs</option>
+                                <option>React</option>
+                                <option>React Native</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">ارسال</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<% let sweetalert = req.flash('sweetalert') %>
+<% if(sweetalert.length) { %>
+    <% let data = sweetalert[0]; %>
+    <script>
+        Swal.fire({
+            title : '<%= data.title %>',
+            text : '<%= data.text %>',
+            type : '<%= data.type %>' 
+        })
+    </script>    
+<% } %>
+<script>
+    $('form').submit(function(e){
+        
+        if($('#room').val() == null) {
+            Swal.fire({
+                title: 'Empty!',
+                text: 'choose one forum',
+                type: 'error',
+                confirmButtonText: 'Cool'
+            })
+
+            return false
+        }
+
+        return true
+    })
+</script>

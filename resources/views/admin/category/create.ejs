@@ -1,0 +1,37 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="padding-right: 0px;padding-left: 0px;">
+    <div class="card">
+        <h5 class="card-header">ایجاد دسته بندی جدید</h5>
+        <div class="card-body">
+
+            <%- include(viewPath('layouts/error-messages') , { errors }) %>
+
+            <form action="/admin/category/create" method="POST" novalidate>
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="name" class="control-label font-weight-bold">عنوان دسته</label>
+                        <input type="text" class="form-control" name="name" id="name"
+                            placeholder="عنوان دسته را وارد کنید">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col">
+                        <label for="parent" class="control-label font-weight-bold font-weight-bold">جایگاه دسته</label>
+                        <select name="parent" id="parent" class="form-control">
+                            <option value="none">دسته اصلی</option>
+                            <% categories.forEach(category => { %>
+                            <option value="<%- category.id %>"><%- category.name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row text-right">
+                    <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                        <button type="submit" class="btn btn-space btn-primary">ارسال</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

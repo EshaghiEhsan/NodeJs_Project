@@ -1,0 +1,53 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="padding-right: 0px;padding-left: 0px;">
+    <div class="card">
+        <h5 class="card-header">ایجاد سطح دسترسی جدید</h5>
+        <div class="card-body">
+
+            <%- include(viewPath('layouts/error-messages') , { errors }) %>
+
+            <form action="/admin/role/create" method="POST" novalidate>
+                <div class="form-group row">
+                        <div class="col">
+                            <label for="name" class="control-label font-weight-bold">دسترسی سطح</label>
+                            <input type="text" class="form-control" name="name" id="name"
+                                placeholder="سطح دسترسی را وارد کنید">
+                        </div>
+    
+                        <div class="col">
+                            <label for="permissions" class="control-label font-weight-bold font-weight-bold">دسترسی</label>
+                            <select name="permissions" id="permissions" class="form-control-chosen" multiple>
+                                <% permissions.forEach(permission => { %>
+                                <option value="<%- permission.id %>"><%- permission.name %>
+                                </option>
+                                <% }) %>
+                            </select>
+                        </div>
+    
+                    </div>
+    
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="label" class="control-label font-weight-bold">توضیحات</label>
+                            <input type="text" class="form-control" name="label" id="label"
+                                placeholder="توضیحات سطج دسترسی را وارد کنید">
+                        </div>
+                    </div>
+
+                <div class="form-group row text-right">
+                    <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                        <button type="submit" class="btn btn-space btn-primary">ارسال</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link href="/css/component-chosen.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.6/chosen.jquery.min.js"></script>
+
+<script>
+    $('.form-control-chosen').chosen({
+
+    })
+</script>

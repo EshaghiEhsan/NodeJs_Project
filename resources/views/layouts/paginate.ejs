@@ -1,0 +1,31 @@
+<div class="d-flex justify-content-center">
+        <% if (pagination.pages > 0) { %>
+        <ul class="pagination">
+            <% if (pagination.page == 1) { %>
+            <li class="page-item disabled"><a class="page-link">First</a></li>
+            <% } else { %>
+            <li class="page-item"><a class="page-link" href="/admin/course/?page=<%= 1 %>">First</a></li>
+            <% } %>
+            <% var i = ((pagination.page) > 5 ? (pagination.page) - 4 : 1) %>
+            <% if (i !== 1) { %>
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+            <% for (; i <= ((pagination.page) + 4) && i <= pagination.pages; i++) { %>
+            <% if (i == pagination.page) { %>
+            <li class="page-item active"><a class="page-link"><%= i %></a></li>
+            <% } else { %>
+            <li class="page-item"><a class="page-link" href="/admin/course/?page=<%= i %>"><%= i %></a></li>
+            <% } %>
+            <% if (i == (pagination.page) + 4 && i < pagination.pages) { %>
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+            <% } %>
+            <% if (pagination.page == pagination.pages) { %>
+            <li class="page-item disabled"><a class="page-link">Last</a></li>
+            <% } else { %>
+            <li class="page-item"><a class="page-link" href="/admin/course/?page=<%= pagination.pages %>">Last</a>
+            </li>
+            <% } %>
+        </ul>
+        <% } %>
+    </div>

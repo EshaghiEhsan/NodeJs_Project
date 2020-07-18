@@ -1,0 +1,50 @@
+<div class="container">
+        <div class="row pt-5 justify-content-center">
+            <div class="col-8">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h5>عضویت در سایت</h5>
+                    </div>
+                    <% if(messages.length > 0) { %>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span>×</span>
+                        </button>
+                        <% messages.forEach(err =>{ %>
+                        <%- err %> </br>
+                        <% }) %>
+                    </div>
+                    <% } %>
+                
+                    <div class="card-body">
+                        <form class="form-horizontal" method="POST" action="/auth/login" novalidate>
+                            
+                            <div class="form-group">
+                                <label for="email" class="control-label">آدرس ایمیل</label>
+                                <input id="email" type="email" class="form-control" name="email" required>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="password" class="control-label">پسورد</label>
+                                <input id="password" type="password" class="form-control" name="password" required>
+                            </div>
+
+                            <div class="form-group">
+                                <input id="remember" type="checkbox" class="checkbox" name="remember" >یاداوری ورود
+                            </div>
+
+                            <div class="form-group">
+                                <%- recaptcha %>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">ورود</button>
+                                <a href="/auth/google" class="btn btn-danger">ورود با اکانت گوگل</a>
+                                <a href="/auth/password/reset" class="btn btn-link">فراموشی رمز عبور</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
